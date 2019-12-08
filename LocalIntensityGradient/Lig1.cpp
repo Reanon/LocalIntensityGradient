@@ -1,4 +1,5 @@
 #include "Lig1.h"
+#include<math.h>
 
 void Lig1(BYTE* img, float* IG_buffer, int width, int height, int R, float k, BYTE* IG_map, BYTE* I_map, BYTE* G_map)
 {
@@ -69,27 +70,32 @@ void Lig1(BYTE* img, float* IG_buffer, int width, int height, int R, float k, BY
 
 					//计算这个点的角度
 					angle = atan2(g_y, g_x);
-					angle = angle > 0 ? angle : (2 * PI + angle);
+					angle = angle > 0 ? angle : (2 * PI + angle);//以便得到0-2*pi的梯度值。
+
 					x = l - j;
 					y = r - i;
 					if (angle < 0.5 * PI && y <= 0 && x < 0)
 					{
-						G1 += g_x * g_x + g_y * g_y;
+						//G1 += g_x * g_x + g_y * g_y;
+						G1 += abs(g_x) + abs(g_y);
 						G1_count++;
 					}
 					else if (angle < PI && y < 0 && x >= 0)
 					{
-						G2 += g_x * g_x + g_y * g_y;
+						//G2 += g_x * g_x + g_y * g_y;
+						G2 += abs(g_x) + abs(g_y);
 						G2_count++;
 					}
 					else if (angle < 1.5 * PI && y >= 0 && x > 0)
 					{
-						G3 += g_x * g_x + g_y * g_y;
+						//G3 += g_x * g_x + g_y * g_y;
+						G3 += abs(g_x) + abs(g_y);
 						G3_count++;
 					}
 					else if (angle < 2 * PI && y > 0 && x <= 0)
 					{
-						G4 += g_x * g_x + g_y * g_y;
+						//G4 += g_x * g_x + g_y * g_y;
+						G4 += abs(g_x) + abs(g_y);
 						G4_count++;
 					}
 
@@ -115,7 +121,7 @@ void Lig1(BYTE* img, float* IG_buffer, int width, int height, int R, float k, BY
 			if (G4 < Gmin)
 				Gmin = G4;
 
-			G = (Gmin / Gmax > k) ? (G1 + G2 + G3 + G4) : 0;
+			G = (Gmin / Gmax > k) ? (G1 + G2 + G3 + G4)/4 : 0;
 
 			//图像平均值
 			f_ = (f0 - sumf) / (1 - R * R);

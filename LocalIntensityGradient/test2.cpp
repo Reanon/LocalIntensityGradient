@@ -30,10 +30,11 @@ int main()
 
 		clock_t startTime, endTime;
 		startTime = clock();//计时开始
-		Lig1(c_bitmap.data_ptr, buffer, width, height, 3, 0.8, IG_map, I_map, G_map);
+		Lig1(c_bitmap.data_ptr, buffer, width, height,7, 0.2, IG_map, I_map, G_map);
 		//Lig2(c_bitmap.data_ptr, buffer, width, height, 2, 0.4, IG_map, I_map, G_map);
 		endTime = clock();//计时结束
 		cout << "The run time is: " << (double)(endTime - startTime) / CLOCKS_PER_SEC << "s" << endl;
+		//输出图像
 		sprintf(outfile1, "D:\\Desktop\\Imap\\%05d.bmp", k);
 		YwkWrite8BitImg2BmpFile(I_map,width,height,outfile1);
 		sprintf(outfile2, "D:\\Desktop\\Gmap\\%05d.bmp", k);
